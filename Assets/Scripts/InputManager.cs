@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows;
@@ -12,6 +13,7 @@ public class InputManager : MonoBehaviour
     public InputField userInput; // the input field object
     public Text inputText; // part of the input field where user enters response
     public Text placeHolderText; // part of the input field for initial placeholder text
+    //public Button abutton;
     
     private string story; // holds the story to display
     private List<string> commands = new List<string>(); //valid user commands
@@ -31,11 +33,23 @@ public class InputManager : MonoBehaviour
         commands.Add("go");
         commands.Add("get");
 
-        userInput.onEndEdit.AddListener(UpdateStory);
+        userInput.onEndEdit.AddListener(GetInput);
+        //abutton.onClick.AddListener(DoSomething);
         story = storyText.text;
     }
 
+    //void DoSomething() //event handler
+    //{
+        //Debug.Log("Button clicked!");
+    //}
+
     public void UpdateStory(string msg)
+    {
+        story += "\n" + msg;
+        storyText.text = story;
+    }
+
+    void GetInput(string msg)
     {
         if (msg != "")
         {
@@ -44,14 +58,36 @@ public class InputManager : MonoBehaviour
 
             if (commands.Contains(parts[0])) //if valid command
             {
-                story += "\n" + msg;
-                storyText.text = story;
+                if (parts[0] == "go") //wants to switch rooms
+                {
+                    if (NavigationManager.instance.SwitchRooms(parts[1])) //returns true or false
+                    {
+                        //fill in later
+                    }
+                    else
+                    {
+                        UpdateStory("Exit does not exist. Try again.");
+                    }
+                }
+                else if (parts[0] == "get") //wants to add item to inventory
+                {
+                    if (NavigationManager.instance.TakeItem(parts[1])) //returns true or false
+                    {
+                        GameManager.instance.inventory.Add(parts[1]);
+                        UpdateStory("You added a(n) " + parts[1] + " to your inventory");
+                    }
+                    else
+                    {
+                        UpdateStory("Sorry, " + parts[1] + "does not exist in this room");
+                    }
+                }
             }
 
         }
 
-        //reset for next input
+        // reset for next input
         userInput.text = ""; //after input from user
         userInput.ActivateInputField();
     }
+
 }
