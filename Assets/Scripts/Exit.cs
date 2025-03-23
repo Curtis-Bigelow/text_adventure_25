@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Text/Exit")]
 public class Exit : ScriptableObject
 {
-   public enum Direction { north, south, east, west}
+   public enum Direction { north, south, east, west, up, down} //added up and down
    
    public Direction direction;
     [TextArea]

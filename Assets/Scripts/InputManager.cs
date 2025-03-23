@@ -37,6 +37,8 @@ public class InputManager : MonoBehaviour
         commands.Add("get");
         commands.Add("restart"); //Added with delegate
         commands.Add("save");
+        commands.Add("inventory"); //added inventory for viewing inventiry
+        commands.Add("commands");// shows commands
 
         userInput.onEndEdit.AddListener(GetInput);
         //abutton.onClick.AddListener(DoSomething);
@@ -103,6 +105,28 @@ public class InputManager : MonoBehaviour
                 else if (parts[0] == "save")
                 {
                     GameManager.instance.Save();
+                }
+                else if (parts[0] == "inventory")
+                {
+                    if(GameManager.instance.inventory.Count == 0) //checks how many items are in inventory
+                    {
+                        UpdateStory("You have no items in your inventory");
+                    }
+                    else if (GameManager.instance.inventory.Count == 1)
+                    {
+                        UpdateStory("You have " + GameManager.instance.inventory[0] + " in your inventory");
+                    }
+                    else if (GameManager.instance.inventory.Count == 2)
+                    {
+                        UpdateStory("You have " + GameManager.instance.inventory[0] + " " + GameManager.instance.inventory[1] + " in your inventory");
+                    }
+                }
+                else if (parts[0] == "commands")
+                {
+                    foreach(string s in commands) //gets each command and prints them on screen
+                    {
+                        UpdateStory(s);
+                    }
                 }
             }
 

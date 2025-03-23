@@ -12,6 +12,7 @@ public class ToggleController : MonoBehaviour
     public Text toggleText;
     public Text placeholderText;
     public Text playerText;
+    public Text sizeText;
 
     private bool darkMode;
 
@@ -52,6 +53,7 @@ public class ToggleController : MonoBehaviour
             toggleText.color = Color.white;
             placeholderText.color = Color.white;
             playerText.color = Color.white;
+            sizeText.color = Color.white;
         }
         else
         {
@@ -60,6 +62,7 @@ public class ToggleController : MonoBehaviour
             toggleText.color = Color.black;
             placeholderText.color = Color.black;
             playerText.color = Color.black;
+            sizeText.color = Color.black;
         }
     }
 }
